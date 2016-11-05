@@ -5,9 +5,11 @@ export default class ListHeader extends React.Component {
   // compnent Render
 
   render(){
+
+    console.log(this.props.listName)
     return (
 
-      <h1>To-Do List</h1>
+      <h1>{this.props.listName} To-Do List</h1>
 
     )
 

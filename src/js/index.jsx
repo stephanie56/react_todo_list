@@ -12,18 +12,43 @@ class SimpleList extends React.Component {
     super();
 
     this.state = {
-      myList: ['Create Flyer', 'Work on Outreach Plan']
+      myList: ['Create Flyer', 'Work on Outreach Plan'],
+      correctList: [{'name': 'create flyer', 'checked': true}],
+      userName: 'stephanie56',
+      favoriteDrink: 'beer'
     }
 
   }
+
+ handleAddNew(item) {
+
+   // copy of old list
+    var listCopy = this.state.myList.slice();
+
+    listCopy.push(item);
+
+    this.setState({
+      myList: listCopy
+    })
+
+  }
+
+
+
 
   // Component Render.
   render() {
     return (
       <div>
-        <ListHeader/>
-        <ListContainer listData={this.state.myList}/>
-        <InsertBtn />
+
+        <ListHeader listName = {this.state.userName}/>
+
+        <ListContainer
+          listData={this.state.myList}
+
+        />
+
+      <InsertBtn handleAddNew={this.handleAddNew.bind(this)} btnValue ={this.state.favoriteDrink} />
       </div>
     )
   }

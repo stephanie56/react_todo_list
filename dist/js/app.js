@@ -87,24 +87,43 @@
 	    var _this = _possibleConstructorReturn(this, (SimpleList.__proto__ || Object.getPrototypeOf(SimpleList)).call(this));
 
 	    _this.state = {
-	      myList: ['Create Flyer', 'Work on Outreach Plan']
+	      myList: ['Create Flyer', 'Work on Outreach Plan'],
+	      correctList: [{ 'name': 'create flyer', 'checked': true }],
+	      userName: 'stephanie56',
+	      favoriteDrink: 'beer'
 	    };
 
 	    return _this;
 	  }
 
-	  // Component Render.
-
-
 	  _createClass(SimpleList, [{
+	    key: 'handleAddNew',
+	    value: function handleAddNew(item) {
+
+	      // copy of old list
+	      var listCopy = this.state.myList.slice();
+
+	      listCopy.push(item);
+
+	      this.setState({
+	        myList: listCopy
+	      });
+	    }
+
+	    // Component Render.
+
+	  }, {
 	    key: 'render',
 	    value: function render() {
 	      return _react2.default.createElement(
 	        'div',
 	        null,
-	        _react2.default.createElement(_ListHeader2.default, null),
-	        _react2.default.createElement(_ListContainer2.default, { listData: this.state.myList }),
-	        _react2.default.createElement(_InsertBtn2.default, null)
+	        _react2.default.createElement(_ListHeader2.default, { listName: this.state.userName }),
+	        _react2.default.createElement(_ListContainer2.default, {
+	          listData: this.state.myList
+
+	        }),
+	        _react2.default.createElement(_InsertBtn2.default, { handleAddNew: this.handleAddNew.bind(this), btnValue: this.state.favoriteDrink })
 	      );
 	    }
 	  }]);
@@ -21524,10 +21543,13 @@
 	    // compnent Render
 
 	    value: function render() {
+
+	      console.log(this.props.listName);
 	      return _react2.default.createElement(
 	        'h1',
 	        null,
-	        'To-Do List'
+	        this.props.listName,
+	        ' To-Do List'
 	      );
 	    }
 	  }]);
@@ -21578,19 +21600,10 @@
 
 	    value: function render() {
 
-	      /*
-	      var listData = this.props.listData;
-	      var itemRow = [];
-	      for(var i=0 ; i<listData.length; i++){
-	        itemRow.push(
-	          <li>{listData[i]}</li>
-	        );
-	      }
-	      */
-	      var itemRow = this.props.listData.map(function (item, idx, arr) {
+	      var listData = this.props.listData.map(function (item, idx, arr) {
 	        return _react2.default.createElement(
 	          'li',
-	          { key: idx },
+	          { key: item + idx },
 	          item
 	        );
 	      });
@@ -21601,7 +21614,7 @@
 	        _react2.default.createElement(
 	          'ul',
 	          null,
-	          itemRow
+	          listData
 	        )
 	      );
 	    }
@@ -21616,7 +21629,7 @@
 /* 174 */
 /***/ function(module, exports, __webpack_require__) {
 
-	'use strict';
+	"use strict";
 
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
@@ -21642,26 +21655,40 @@
 	  function InsertBtn() {
 	    _classCallCheck(this, InsertBtn);
 
-	    return _possibleConstructorReturn(this, (InsertBtn.__proto__ || Object.getPrototypeOf(InsertBtn)).apply(this, arguments));
+	    var _this = _possibleConstructorReturn(this, (InsertBtn.__proto__ || Object.getPrototypeOf(InsertBtn)).call(this));
+
+	    _this.state = {
+	      todoItem: ""
+	    };
+
+	    // Bind function to this component instances.
+	    _this.handleChange = _this.handleChange.bind(_this);
+	    return _this;
 	  }
 
 	  _createClass(InsertBtn, [{
-	    key: 'render',
+	    key: "handleSubmit",
+	    value: function handleSubmit() {
+	      this.props.handleAddNew(this.state.todoItem);
+	    }
+	  }, {
+	    key: "handleChange",
+	    value: function handleChange(e) {
+	      var newState = {
+	        todoItem: e.target.value
+	      };
+
+	      this.setState(newState);
+	    }
+	  }, {
+	    key: "render",
 	    value: function render() {
 
 	      return _react2.default.createElement(
-	        'div',
+	        "div",
 	        null,
-	        _react2.default.createElement(
-	          'div',
-	          null,
-	          'this is an input area'
-	        ),
-	        _react2.default.createElement(
-	          'div',
-	          null,
-	          'this is a submit button!'
-	        )
+	        _react2.default.createElement("input", { type: "text", onChange: this.handleChange }),
+	        _react2.default.createElement("input", { type: "submit", value: this.props.btnValue + " up", onClick: this.handleSubmit.bind(this) })
 	      );
 	    }
 	  }]);
